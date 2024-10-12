@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Loja</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header class="bg-dark text-white p-4">
+        <div class="container">
+            <h1 class="text-center">Mini Loja</h1>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">Home</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Sobre</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contato</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-8">
+                <h2>Bem-vindo à Mini Loja</h2>
+                <div class="row">
+                    {% for produto in produtos %}
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <img src="{{ produto.imagem }}" class="card-img-top" alt="{{ produto.nome }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ produto.nome }}</h5>
+                                    <p class="card-text">Preço: R$ {{ produto.preco|number_format(2, ',', '.') }}</p>
+                                    <form action="" method="POST">
+                                        <button class="btn btn-success" name="comprar" value="{{ produto.id }}">Comprar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Carrinho de Compras</h2>
+                        {% if carrinho is empty %}
+                            <p>O carrinho está vazio.</p>
+                        {% else %}
+                            {% for item in carrinho %}
+                                <div class="mb-3">
+                                    <h5>{{ item.nome }}</h5>
+                                    <p>Preço: R$ {{ item.preco|number_format(2, ',', '.') }}</p>
+                                    <form action="" method="POST">
+                                        <button class="btn btn-danger" name="remover" value="{{ item.id }}">Remover</button>
+                                    </form>
+                                </div>
+                            {% endfor %}
+                            <p>Total: R$ {{ carrinho|sum('preco')|number_format(2, ',', '.') }}</p>
+                            <form action="" method="POST">
+                                <button class="btn-comprar" name="finalizar_compra">Comprar</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer class="bg-dark text-white text-center p-4 mt-5">
+        <div class="container">
+            <p>Contato: email@example.com | Telefone: (11) 1234-5678</p>
+            <p>Redes Sociais: 
+                <a href="#" class="text-white">Facebook</a> | 
+                <a href="#" class="text-white">Instagram</a>
+            </p>
+            <p>&copy; 2024 Mini Loja. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS (opcional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
